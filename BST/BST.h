@@ -21,6 +21,7 @@ public:
 	BST(void);
 
 	// Main Functions
+	Node<T>* Root();
 	bool Contains(T val);
 	Node<T>* FindNode(T val);
 	void Insert(T val);
@@ -29,6 +30,9 @@ public:
 	// Remove Helper functions
 	Node<T>* FindParent(T val);
 	Node<T>* FindMin(Node<T>* start);
+
+	// Count Function
+	int CountNodes(Node<T>* start);
 
 	// Display Functions
 	void Traverse(int order);

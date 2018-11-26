@@ -26,6 +26,12 @@ BST<T>::BST(void)
 }
 
 template <class T>
+Node<T>* BST<T>::Root()
+{
+	return root;
+}
+
+template <class T>
 bool BST<T>::Contains(T val)
 {
 	Node<T>* tmp = FindNode(val);
@@ -214,6 +220,42 @@ void BST<T>::PostOrder(Node<T>* start)
 		PostOrder(start->right);
 		cout << start->value << endl;
 	}
+}
+
+
+template <class T>
+int BST<T>::CountNodes(Node<T>* start)
+{
+	int nodesCounter;
+
+	if (start != NULL)
+	{
+		nodesCounter = 1;
+
+		if (start->left == NULL)
+		{
+			nodesCounter += 0;
+		}
+		else
+		{
+			nodesCounter += CountNodes(start->left);
+		}
+
+		if (start->right == NULL)
+		{
+			nodesCounter += 0;
+		}
+		else
+		{
+			nodesCounter += CountNodes(start->right);
+		}
+	}
+	else
+	{
+		nodesCounter = 0;
+	}
+
+	return nodesCounter;
 }
 
 template <class T>
