@@ -22,8 +22,6 @@ Node<T>::Node(T val)
 
 /************** BST CLASS **************/
 
-
-
 ////// Constructor //////
 
 template <class T>
@@ -298,7 +296,7 @@ void BST<T>::VisualizeTree()
 	{
 
 		// Print Level Header
-		int currentLevelIndentation = LevelIndentation(currentLevel);
+		int currentLevelIndentation  = LevelIndentation(currentLevel);
 		int previousLevelIndentation = LevelIndentation(currentLevel - 1);
 
 		cout << string(currentLevelIndentation, ' ');
@@ -322,8 +320,22 @@ void BST<T>::VisualizeTree()
 
 			for (int nodeNumber = 0; nodeNumber < LevelNodes(currentLevel); nodeNumber++)
 			{
-				cout << "/" << string(branchWidth, ' ') << "\\";
+				// Print Left Branch
+				if (levelsArray[currentLevel + 1][2 * nodeNumber] == "   ")
+					cout << " ";
+				else
+					cout << "/";
 
+				// Print Branch Width
+				cout << string(branchWidth, ' ');
+
+				// Print Right Branch
+				if (levelsArray[currentLevel + 1][2 * nodeNumber + 1] == "   ")
+					cout << " ";
+				else
+					cout << "\\";
+
+				// Print space between current node's branch and next node's branch
 				if (currentLevel != 0)
 					cout << string(spacesInBetween, ' ');
 			}
