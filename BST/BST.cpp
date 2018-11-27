@@ -488,6 +488,82 @@ string** BST<T>::InitializeValuesArray()
 
 
 
+////// Create Balanced Tree Funtion //////
+
+template <class T>
+BST<T> BST<T>::CreateBalancedTree(T *vals, int arraySize)
+{
+	// Takes an array of elements and its size then inserts
+	// those elements to an initially Empty tree making sure that
+	// the resulting tree is balanced, then returns the new tree.
+	// (WARNING: ORIGINAL TREE WILL BE LOST!)
+
+	// STEP 0: Create an empty tree
+	BST<T> balancedTree;
+
+	// STEP 1: Sort the given array in ascending order
+	sort(vals, vals + arraySize);
+
+	// STEP 2: Insert Middle elements to the created tree
+	InsertMiddleElement(0, arraySize - 1, vals, &balancedTree);
+
+	return balancedTree;
+}
+
+
+////// Create Balanced Tree Helper Funtion //////
+
+template <class T>
+void BST<T>::InsertMiddleElement(int startIndex, int endIndex, T *vals, BST<T>* balancedTree)
+{
+	// This function gets the middleIndex between startIndex and endIndex
+	// then insert the elements at that index from the given array
+	// to the given Binary Search Tree
+
+
+	// Get the Number of elements between the startIndex and the endIndex
+	int numberOfElementsInBetween = endIndex - startIndex - 1;
+
+
+	// If numberOfElementsInBetween is odd number
+	// then we need to ceil the integer divison
+	// That's why a one is added before the divison
+
+	// e.g. if numberOfElementsInBetween is 3 (odd)
+	// [ ] [ ] [ ] [S] [M] [ ] [ ] [E] -------->  3      / 2 = 1 + S
+	// [ ] [ ] [ ] [S] [ ] [M] [ ] [E] --------> (3 + 1) / 2 = 2 + S (Desired output)
+
+	// e.g. if numberOfElementsInBetween is 4 (even)
+	// [ ] [ ] [ ] [S] [ ] [M] [ ] [ ] [E] ---->  4      / 2 = 2 + S
+	// [ ] [ ] [ ] [S] [ ] [M] [ ] [ ] [E] ----> (4 + 1) / 2 = 2 + S (Desired output)
+
+	int middleIndex = ((numberOfElementsInBetween + 1) / 2) + startIndex;
+
+
+	// In case startIndex equals endIndex
+	if (numberOfElementsInBetween < 0) {
+		balancedTree->Insert(vals[startIndex]);
+	}
+
+	// In case there is no elements between startIndex and endIndex
+	else if (numberOfElementsInBetween == 0) {
+		balancedTree->Insert(vals[startIndex]);
+		balancedTree->Insert(vals[endIndex]);
+	}
+
+	// In case there is more then one element between startIndex and endIndex
+	else {
+		balancedTree->Insert(vals[middleIndex]);
+		// Slice the array into two parts and repeat the previous function on each part
+		// First part starts from startIndex to the element before the middleIndex
+		InsertMiddleElement(startIndex, middleIndex - 1, vals, balancedTree);
+		// Second part starts from the element after  the middleIndex to the endIndex
+		InsertMiddleElement(middleIndex + 1, endIndex, vals, balancedTree);
+	}
+}
+
+
+
 ////// Destructor  //////
 
 template <class T>

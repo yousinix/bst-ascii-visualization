@@ -8,6 +8,9 @@
 #include <string>
 #include <cmath>
 
+/*For CreateBalancedTree Funtion*/
+#include <algorithm>
+
 using namespace std;
 
 template <class T>
@@ -65,6 +68,12 @@ public:
 	int LevelIndentation(int levelNumber);
 
 	string** InitializeValuesArray();
+
+	// Create Balanced Tree Funtion
+	BST<T> CreateBalancedTree(T *vals, int arraySize);
+
+	// Create Balanced Tree Helper Funtion
+	void InsertMiddleElement(int startIndex, int endIndex, T *vals, BST<T>* balancedTree);
 
 	~BST(void);
 };
