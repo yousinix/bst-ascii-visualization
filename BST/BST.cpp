@@ -17,13 +17,24 @@ Node<T>::Node(T val)
 
 
 
+
+
+
 /************** BST CLASS **************/
+
+
+
+////// Constructor //////
 
 template <class T>
 BST<T>::BST(void)
 {
 	root = NULL;
 }
+
+
+
+////// Main Funtions //////
 
 template <class T>
 Node<T>* BST<T>::Root()
@@ -152,6 +163,10 @@ void BST<T>::Remove(T val)
 	}
 }
 
+
+
+////// Remove Helper Functions //////
+
 template <class T>
 Node<T>* BST<T>::FindMin(Node<T>* start)
 {
@@ -177,6 +192,10 @@ Node<T>* BST<T>::FindParent(T val)
 	}
 	return b;
 }
+
+
+
+////// Count Funtion //////
 
 template <class T>
 void BST<T>::Traverse(int order)
@@ -223,6 +242,9 @@ void BST<T>::PostOrder(Node<T>* start)
 }
 
 
+
+////// Count Funtion //////
+
 template <class T>
 int BST<T>::CountNodes(Node<T>* start)
 {
@@ -258,6 +280,9 @@ int BST<T>::CountNodes(Node<T>* start)
 	return nodesCounter;
 }
 
+
+
+////// VisualizeTree Funtion //////
 
 template <class T>
 void BST<T>::VisualizeTree()
@@ -312,6 +337,8 @@ void BST<T>::VisualizeTree()
 }
 
 
+
+////// VisualizeTree Helper Functions //////
 
 template <class T>
 int BST<T>::NodeHeight(Node<T>* start)
@@ -446,6 +473,10 @@ string** BST<T>::InitializeValuesArray()
 		return valuesArray;
 	}
 }
+
+
+
+////// Destructor  //////
 
 template <class T>
 BST<T>::~BST(void)
