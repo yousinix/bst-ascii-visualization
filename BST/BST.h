@@ -28,31 +28,12 @@ class BST
 {
 	Node<T>* root;
 
-public:
-	BST(void);
-
-	// Main Functions
-	Node<T>* Root();
-	bool Contains(T val);
-	Node<T>* FindNode(T val);
-	void Insert(T val);
-	void Remove(T val);
+private:
 
 	// Remove Helper Functions
 	Node<T>* FindParent(T val);
 	Node<T>* FindMin(Node<T>* start);
 
-	// Display Functions
-	void Traverse(int order);
-	void InOrder(Node<T>* start);
-	void PreOrder(Node<T>* start);
-	void PostOrder(Node<T>* start);
-
-	// Count Function
-	int CountNodes(Node<T>* start);
-
-	// VisualizeTree Funtion
-	void VisualizeTree();
 
 	// VisualizeTree Helper Functions
 	int NodeHeight(Node<T>* start);
@@ -69,11 +50,35 @@ public:
 
 	string** InitializeValuesArray();
 
-	// Create Balanced Tree Funtion
-	BST<T> CreateBalancedTree(T *vals, int arraySize);
 
 	// Create Balanced Tree Helper Funtion
 	void InsertMiddleElement(int startIndex, int endIndex, T *vals, BST<T>* balancedTree);
+
+public:
+
+	BST(void);
+
+	// Main Functions
+	Node<T>* Root();
+	bool Contains(T val);
+	Node<T>* FindNode(T val);
+	void Insert(T val);
+	void Remove(T val);
+
+	// Display Functions
+	void Traverse(int order);
+	void InOrder(Node<T>* start);
+	void PreOrder(Node<T>* start);
+	void PostOrder(Node<T>* start);
+
+	// Count Function
+	int CountNodes(Node<T>* start);
+
+	// VisualizeTree Funtion
+	void VisualizeTree();
+
+	// Create Balanced Tree Funtion
+	BST<T> CreateBalancedTree(T *vals, int arraySize);
 
 	~BST(void);
 };
