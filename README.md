@@ -16,3 +16,4 @@ This program helps to Visualize [Binary Search Trees](https://en.wikipedia.org/w
 
 - Count Number of Nodes
 - Visualize Tree
+- Create a Balanced Tree from an Array
