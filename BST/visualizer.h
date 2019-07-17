@@ -20,6 +20,7 @@ class visualizer
 	int get_subtree_width(int) const;
 	int get_branch_height(int) const;
 	int get_level_indentation(int) const;
+	static int is_empty(const string&);
 
 public:
 

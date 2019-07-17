@@ -53,7 +53,7 @@ void visualizer<T>::init_values()
 	{
 		for (auto node = 0; node < get_nodes_in_level(level); node++)
 		{
-			values_[level][node] = nodes_queue.front() == nullptr ? "" : to_string(nodes_queue.front()->value);
+			values_[level][node] = nodes_queue.front() == nullptr ? string(nodes_length_, ' ') : to_string(nodes_queue.front()->value);
 			nodes_queue.pop();
 		}
 	}
@@ -105,6 +105,12 @@ int visualizer<T>::get_level_indentation(const int level_number) const
 }
 
 template <class T>
+int visualizer<T>::is_empty(const string& node)
+{
+	return node.find_first_not_of(' ') == std::string::npos;
+}
+
+template <class T>
 void visualizer<T>::visualize() const
 {
 	for (auto level = 0; level < tree_height_; level++)
@@ -130,8 +136,8 @@ void visualizer<T>::visualize() const
 
 			for (auto node = 0; node < nodes_in_level; node++)
 			{
-				const auto has_left_child  = !values_[level + 1][2 * node].empty();
-				const auto has_right_child = !values_[level + 1][2 * node + 1].empty();
+				const auto has_left_child  = !is_empty(values_[level + 1][2 * node]);
+				const auto has_right_child = !is_empty(values_[level + 1][2 * node + 1]);
 				const auto branch_width    = i * 2 + 1;
 				const auto spaces_between  = previous_level_indentation - i * 2 * (level > 0);
 
