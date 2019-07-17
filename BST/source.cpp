@@ -1,7 +1,7 @@
-#include <iostream>
-#include <Windows.h>
 #include "bst.cpp"
 #include "visualizer.cpp"
+#include <iostream>
+#include <Windows.h>
 
 using namespace std;
 
@@ -16,17 +16,14 @@ int main()
 	// Get Array size
 	const int arr_size = sizeof arr / sizeof arr[0];
 
-	cout << endl << endl;
-
-	bst<int> tree;
-
 	// Create a balanced tree from the previous array
+	bst<int> tree;
 	tree = tree.create_balanced_tree(arr, arr_size);
 
-	visualizer<int> v(tree);
 	// Visualize the resulting tree
+	const visualizer<int> v(tree);
+	cout << endl << endl;
 	v.visualize();
-
 	cout << endl << endl;
 
 	system("Pause");

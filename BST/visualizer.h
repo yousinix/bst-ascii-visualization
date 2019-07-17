@@ -6,27 +6,25 @@ using namespace std;
 template <class T>
 class visualizer
 {
+	int tree_height_;
+	int tree_nodes_;
+	int nodes_length_ = 3;
 	bst<T> tree_;
+	node<T>* tree_root_;
+	string** values_{};
 
-	int get_node_height(node<T>*);
-	int get_tree_height();
-	int get_tree_width();
-
-	int get_level_nodes(int) const;
-	int get_tree_nodes();
-
-	int get_levels_below(int);
-	int get_subtree_width(int);
-	int get_branch_height(int);
-	auto get_level_indentation(int) -> int;
-
-	string** initialize_values_array();
+	void init_values();
+	int get_node_height(node<T>*) const;
+	int get_nodes_in_level(int) const;
+	int get_levels_below(int) const;
+	int get_subtree_width(int) const;
+	int get_branch_height(int) const;
+	int get_level_indentation(int) const;
 
 public:
 
 	explicit visualizer(bst<T>);
 	~visualizer();
-
-	void visualize();
+	void visualize() const;
 
 };
