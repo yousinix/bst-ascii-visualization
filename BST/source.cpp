@@ -1,10 +1,11 @@
 #include <iostream>
 #include <Windows.h>
-#include "BST.cpp"
+#include "bst.cpp"
+#include "visualizer.cpp"
 
 using namespace std;
 
-void main()
+int main()
 {
 	SetConsoleTitle("Binary Search Tree");
 
@@ -13,20 +14,22 @@ void main()
 		          4, 5, 3, 12, 13, 14, 15, 16, 17, 18, 24, 25, 26, 27, 30 };
 
 	// Get Array size
-	int arrSize = sizeof(arr) / sizeof(arr[0]);
+	const int arr_size = sizeof arr / sizeof arr[0];
 
 	cout << endl << endl;
 
-	BST<int> Tree;
+	bst<int> tree;
 
 	// Create a balanced tree from the previous array
-	Tree = Tree.CreateBalancedTree(arr, arrSize);
+	tree = tree.create_balanced_tree(arr, arr_size);
 
+	visualizer<int> v(tree);
 	// Visualize the resulting tree
-	Tree.VisualizeTree();
+	v.visualize();
 
 	cout << endl << endl;
 
 	system("Pause");
+	return 0;
 
 }
