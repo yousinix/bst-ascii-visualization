@@ -8,8 +8,8 @@ visualizer<T>::visualizer(bst<T> tree)
 {
 	tree_        = tree;
 	tree_root_   = tree_.get_root();
-	tree_height_ = get_node_height(tree_root_);
-	tree_nodes_  = get_nodes_in_level(tree_height_) - 1;
+	tree_height_ = get_tree_height(tree_root_);
+	tree_nodes_  = get_nodes_count(tree_height_) - 1;
 	init_values();
 }
 
@@ -25,7 +25,7 @@ void visualizer<T>::init_values()
 	values_ = new string*[tree_nodes_];
 	for (auto level = 0; level < tree_height_; level++)
 	{
-		values_[level] = new string[get_nodes_in_level(level)];
+		values_[level] = new string[get_nodes_count(level)];
 	}
 
 	queue<node<T>*> temp_queue, nodes_queue;
@@ -51,9 +51,9 @@ void visualizer<T>::init_values()
 
 	for (auto level = 0; level < tree_height_; level++)
 	{
-		for (auto node = 0; node < get_nodes_in_level(level); node++)
+		for (auto node = 0; node < get_nodes_count(level); node++)
 		{
-			values_[level][node] = nodes_queue.front() == nullptr ? string(nodes_length_, ' ') : to_string(nodes_queue.front()->value);
+			values_[level][node] = nodes_queue.front() == nullptr ? "" : to_string(nodes_queue.front()->value);
 			nodes_queue.pop();
 		}
 	}
@@ -61,93 +61,75 @@ void visualizer<T>::init_values()
 }
 
 template <class T>
-int visualizer<T>::get_node_height(node<T>* start) const
+int visualizer<T>::get_tree_height(node<T>* root) const
 {
-	if (start == nullptr) return 0;
-
-	const int left_height  = get_node_height(start->left);
-	const int right_height = get_node_height(start->right);
-
+	if (root == nullptr) return 0;
+	const int left_height  = get_tree_height(root->left);
+	const int right_height = get_tree_height(root->right);
 	return left_height > right_height ? left_height + 1 : right_height + 1;
 }
 
 template <class T>
-int visualizer<T>::get_nodes_in_level(const int level_number) const
+int visualizer<T>::get_nodes_count(const int level) const
 {
-	return int(pow(2, level_number));
+	return int(pow(2, level));
 }
 
 template <class T>
-int visualizer<T>::get_levels_below(const int level_number) const
+int visualizer<T>::get_subtree_width(const int level) const
 {
-	return tree_height_ - level_number - 1;
-}
-
-template <class T>
-int visualizer<T>::get_subtree_width(const int level_number) const
-{
-	const auto number_of_nodes = pow(2, get_levels_below(level_number));
-	return nodes_length_ * (2 * number_of_nodes - 2);
-}
-
-template <class T>
-int visualizer<T>::get_branch_height(const int level_number) const
-{
-	if (level_number == tree_height_ - 1) return 0;
-	return get_subtree_width(level_number) / 4 + 1;
-}
-
-template <class T>
-int visualizer<T>::get_level_indentation(const int level_number) const
-{
-	if (level_number < 0) return 0;
-	return get_subtree_width(level_number) / 2;
-}
-
-template <class T>
-int visualizer<T>::is_empty(const string& node)
-{
-	return node.find_first_not_of(' ') == std::string::npos;
+	const auto levels_below = tree_height_ - level - 1;
+	const auto nodes_count  = get_nodes_count(levels_below);
+	const auto spaces_count = nodes_count - 1;
+	return node_length_ * nodes_count + space_length_ * spaces_count;
 }
 
 template <class T>
 void visualizer<T>::visualize() const
 {
+
+	const auto last_level = tree_height_ - 1;
+
 	for (auto level = 0; level < tree_height_; level++)
 	{
-		const auto current_level_indentation  = get_level_indentation(level);
-		const auto previous_level_indentation = get_level_indentation(level - 1);
-		const auto nodes_in_level             = get_nodes_in_level(level);
+		const auto nodes_count      = get_nodes_count(level);
+		const auto last_node        = nodes_count - 1;
+		const auto subtree_width    = get_subtree_width(level);
+		const auto node_indentation = subtree_width / 2 - node_shift_factor_;
+		const auto nodes_spacing    = subtree_width - 2 * (node_shift_factor_ - space_shift_factor_);
+		const auto branch_height    = (subtree_width + 1) / 4;
 
-		cout << string(current_level_indentation, ' ');
+		cout << string(node_indentation, ' ');
 
-		for (auto node = 0; node < nodes_in_level; node++)
+		for (auto node = 0; node < nodes_count; node++)
 		{
-			cout << setw(nodes_length_) << setfill('0') << values_[level][node];
-			cout << string(previous_level_indentation, ' ');
+			const auto node_value = values_[level][node].empty() ? empty_node_ : values_[level][node];
+			cout << setw(node_length_) << setfill('0') << node_value;
+			cout << string(nodes_spacing * (node != last_node), ' ');
 		}
 
-		cout << '\n';
+		cout << endl;
 
-		for (auto i = 0; i < get_branch_height(level); i++)
+		for (auto i = 0; i < branch_height && level != last_level; i++)
 		{
-			const auto branch_indentation = current_level_indentation - i;
+			const auto branch_indentation = subtree_width / 2 - 1 - i;
 			cout << string(branch_indentation, ' ');
 
-			for (auto node = 0; node < nodes_in_level; node++)
+			for (auto node = 0; node < nodes_count; node++)
 			{
-				const auto has_left_child  = !is_empty(values_[level + 1][2 * node]);
-				const auto has_right_child = !is_empty(values_[level + 1][2 * node + 1]);
-				const auto branch_width    = i * 2 + 1;
-				const auto spaces_between  = previous_level_indentation - i * 2 * (level > 0);
+				const auto has_left_child   = !values_[level + 1][2 * node    ].empty();
+				const auto has_right_child  = !values_[level + 1][2 * node + 1].empty();
+				const auto branch_width     = node_type_ + 2 * i;
+				const auto branches_spacing = nodes_spacing + 2 * (node_shift_factor_ - 1 - i);
 
 				cout << (has_left_child ? '/' : ' ');
 				cout << string(branch_width, ' ');
 				cout << (has_right_child ? '\\' : ' ');
-				cout << string(spaces_between, ' ');
+				cout << string(branches_spacing * (node != last_node), ' ');
 			}
 
-			cout << '\n';
+			cout << endl;
 		}
 	}
+
 }
