@@ -1,19 +1,6 @@
 # Binary Search Tree Visualization
 
-This program helps to Visualize [Binary Search Trees](https://en.wikipedia.org/wiki/Binary_search_tree) using C++.
+This program helps to Visualize [Binary Search Trees](https://en.wikipedia.org/wiki/Binary_search_tree) using [**Adaptive Node Length with Fixed Space Length Algorithm**](https://github.com/YoussefRaafatNasry/binary-search-tree-visualization/blob/master/STUDY_CASE.md#iii-adaptive-node-length-with-fixed-space-length-algorithm).  
+See my [**Study Case**](https://github.com/YoussefRaafatNasry/binary-search-tree-visualization/blob/master/STUDY_CASE.md) for more info.
 
-## Preview
-
-![capture](https://user-images.githubusercontent.com/41103290/49118099-cb5d0300-f2ab-11e8-9302-b90c3e1a6b04.JPG)
-
-## Binary Search Tree Main Functions
-
-- Insert
-- Remove
-- Traverse (In-Order, Pre-order, Post-order)
-
-## Binary Search Tree Extra Functions
-
-- Count Number of Nodes
-- Visualize Tree
-- Create a Balanced Tree from an Array
+![image](https://user-images.githubusercontent.com/41103290/61499506-c7f7c280-a9c7-11e9-97d3-ba647b07424b.png)
