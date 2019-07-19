@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-	SetConsoleTitle("Binary Search Tree");
+	SetConsoleTitle("BST ASCII Visualization");
 
 	// Initialize Array
 	int arr[] = { 10, 7, 9, 6, 1, 19, 20, 21, 22, 23, 8, 11, 2, 0, 28, 29,
