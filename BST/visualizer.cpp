@@ -1,63 +1,80 @@
 #include "visualizer.h"
 #include <iomanip>
 #include <iostream>
-#include <queue>
 
 template <class T>
-visualizer<T>::visualizer(bst<T> tree)
+visualizer<T>::visualizer(bst<T> tree, int node_length /* = -1 */, int space_length /* = -1 */)
 {
-	tree_        = tree;
-	tree_root_   = tree_.get_root();
-	tree_height_ = get_tree_height(tree_root_);
-	tree_nodes_  = get_nodes_count(tree_height_) - 1;
-	init_values();
-}
 
-template <class T>
-visualizer<T>::~visualizer()
-= default;
+	auto min_node_len = 0;
+	auto min_space_len = 0;
 
-template <class T>
-void visualizer<T>::init_values()
-{
-	if (tree_root_ == nullptr) return;
+	// Initialize tree-related variables
+	tree_                 = tree;
+	tree_root_            = tree_.get_root();
+	tree_height_          = get_tree_height(tree_root_);
+	tree_nodes_           = get_nodes_count(tree_height_) - 1;
+	queue<node<T>*> nodes = breadth_first_search();
 
+	// Initialize values_ array
 	values_ = new string*[tree_nodes_];
 	for (auto level = 0; level < tree_height_; level++)
 	{
 		values_[level] = new string[get_nodes_count(level)];
+		for (auto node = 0; node < get_nodes_count(level); node++)
+		{
+			// Convert node to string and add it to values vector
+			// also add empty string if node is empty
+			auto value = nodes.front() == nullptr ? "" : to_string(nodes.front()->value);
+			values_[level][node] = value;
+			nodes.pop();
+
+			// Calculate minimum required node length
+			const int length = value.length();
+			if (min_node_len < length) min_node_len = length;
+		}
 	}
 
-	queue<node<T>*> temp_queue, nodes_queue;
-	temp_queue.push(tree_root_);
+	// Initialize node-related variables
+	node_length_        = node_length > min_node_len ? node_length : min_node_len;       // Choose suitable node length
+	node_type_          = node_length_ % 2;                                              // ZERO if length is even and ONE if odd
+	node_shift_factor_  = node_length_ / 2;                                              // Shifting factor used in visualizing
+	empty_node_         = string(node_length_, ' ');                                     // Represents an empty node
+
+	// Initialize space-related variables
+	min_space_len       = node_type_ ? 3 : 4;                                            // Calculate minimum required space length
+	space_length_       = space_length > min_space_len ? space_length : min_space_len;   // Choose suitable node length
+	space_shift_factor_ = space_length_ / 2;                                             // Shifting factor used in visualizing
+
+	// Make sure that that both values are either even or odd
+	assert(node_type_ == space_length_ % 2);
+}
+
+template <class T>
+queue<node<T>*> visualizer<T>::breadth_first_search()
+{
+	queue<node<T>*> temp, nodes;
+	temp.push(tree_root_);
 
 	for (auto i = 0; i < tree_nodes_; i++)
 	{
-		node<T>* current = temp_queue.front();
-		temp_queue.pop();
-		nodes_queue.push(current);
+		node<T>* current = temp.front();
+		temp.pop();
+		nodes.push(current);
 
 		if (current == nullptr)
 		{
-			temp_queue.push(nullptr);
-			temp_queue.push(nullptr);
+			temp.push(nullptr);
+			temp.push(nullptr);
 		}
 		else
 		{
-			temp_queue.push(current->left);
-			temp_queue.push(current->right);
+			temp.push(current->left);
+			temp.push(current->right);
 		}
 	}
 
-	for (auto level = 0; level < tree_height_; level++)
-	{
-		for (auto node = 0; node < get_nodes_count(level); node++)
-		{
-			values_[level][node] = nodes_queue.front() == nullptr ? "" : to_string(nodes_queue.front()->value);
-			nodes_queue.pop();
-		}
-	}
-
+	return nodes;
 }
 
 template <class T>
