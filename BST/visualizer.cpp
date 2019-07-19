@@ -25,7 +25,7 @@ visualizer<T>::visualizer(bst<T> tree, int node_length /* = -1 */, int space_len
 		{
 			// Convert node to string and add it to values vector
 			// also add empty string if node is empty
-			auto value = nodes.front() == nullptr ? "" : to_string(nodes.front()->value);
+			auto value = nodes.front() == nullptr ? "" : to_string(nodes.front()->get_value());
 			values_[level][node] = value;
 			nodes.pop();
 
@@ -69,8 +69,8 @@ queue<node<T>*> visualizer<T>::breadth_first_search()
 		}
 		else
 		{
-			temp.push(current->left);
-			temp.push(current->right);
+			temp.push(current->get_left());
+			temp.push(current->get_right());
 		}
 	}
 
@@ -81,8 +81,8 @@ template <class T>
 int visualizer<T>::get_tree_height(node<T>* root) const
 {
 	if (root == nullptr) return 0;
-	const int left_height  = get_tree_height(root->left);
-	const int right_height = get_tree_height(root->right);
+	const int left_height  = get_tree_height(root->get_left());
+	const int right_height = get_tree_height(root->get_right());
 	return left_height > right_height ? left_height + 1 : right_height + 1;
 }
 

@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bst.cpp" />
+    <ClCompile Include="node.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="visualizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bst.h" />
+    <ClInclude Include="node.h" />
     <ClInclude Include="visualizer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,32 +1,25 @@
 #pragma once
-
-template <class T>
-class node
-{
-public:
-	T value;
-	node<T>* left, *right;
-	node();
-	explicit node(T);
-};
+#include "node.h"
 
 template <class T>
 class bst
 {
-	node<T>* root_;
+	node<T>* root_ = nullptr;
 
+	// Create Balanced Tree Helper Function
+	void insert_middle_element(int, int, T*, bst<T>*);
 
 	// Remove Helper Functions
 	node<T>* find_min(node<T>*);
 	node<T>* find_parent(T);
 
-	// Create Balanced Tree Helper Function
-	void insert_middle_element(int, int, T*, bst<T>*);
-
 public:
 
-	bst();
-	~bst();
+	bst() = default;
+	~bst() = default;
+
+	// Create Balanced Tree Function
+	bst<T> create_balanced_tree(T*, int);
 
 	// Main Functions
 	node<T>* get_root();
@@ -43,9 +36,6 @@ public:
 
 	// Count Function
 	int count_nodes(node<T>*);
-
-	// Create Balanced Tree Function
-	bst<T> create_balanced_tree(T*, int);
 
 };
 

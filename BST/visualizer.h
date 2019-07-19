@@ -1,5 +1,6 @@
 #pragma once
 #include "bst.h"
+#include "node.h"
 #include <string>
 #include <queue>
 using namespace std;
